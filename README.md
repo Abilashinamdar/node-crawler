@@ -25,6 +25,7 @@ yarn add node-crawler
 
 ```js
 import crawl from "node-crawler";
+
 crawl(config, onEveryCrawl, onCrawlError, onCrawlComplete)
 ```
 
@@ -39,9 +40,10 @@ maxRetries | Number | 0 | No. of times the request should be retried when fails.
 allowExternalImages| Boolean | false | true/false. true allows crawler to pick image if it points to outside the origin/host
 retryDelay| Number | 0 | in milliseconds. Delay between the retry requests.
 useProxy| Boolean | false | true/false. true allows crawler to rotate some free proxies from [https://www.free-proxy-list.com](https://www.free-proxy-list.com)
-proxies| Array<String> | [] | Crawler will rotate the proxies from the list rather than fetching free prxoies. useProxy: true is mandatory.
+proxies| Array<String> | [] | Crawler will rotate the proxies from the list rather than fetching free proxies. useProxy: true is mandatory.
 skipRobotsFile| Boolean | false | true/false. true allows crawler to bypass the robots.txt check.
 requestDelay| Number | 0 | in milliseconds. Delay between the concurrent requests.
+
 
 ### onEveryCrawl(value)
 ```js
@@ -57,6 +59,7 @@ type - It can be 'LINK' / 'IMAGE' / 'IGNORE'
 reason - Description for the IGNORE type.
 ```
 
+
 ### onCrawlError(error)
 ```js
 onCrawlError will get triggered when crawler get error while crawling.
@@ -71,6 +74,7 @@ It will be triggered with the error as sample object as below or JS Error object
 type - It will be 'DISALLOWED'
 reason - Description for the DISALLOWED type. Basically occurs when robots.txt disallows the url.
 ```
+
 
 ### onCrawlComplete(value)
 ```js
