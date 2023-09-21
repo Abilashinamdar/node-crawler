@@ -2,6 +2,16 @@
 
 > Fast asynchronous NodeJS module for crawling/scraping a web through worker_threads.
 
+[![npm package](https://nodei.co/npm/@abilashinamdar/node-crawler.png)](https://www.npmjs.com/package/@abilashinamdar/node-crawler)
+
+
+[![Version][version-image]][download-url]
+[![License][license-image]][download-url]
+
+[version-image]: https://img.shields.io/npm/v/@abilashinamdar/node-crawler.svg
+[license-image]: https://img.shields.io/npm/l/@abilashinamdar/node-crawler.svg
+[download-url]: https://npmjs.com/package/@abilashinamdar/node-crawler
+
 ### Features
 - Crawling on threads(CPU cores)
 - Crawl images and links
@@ -15,16 +25,18 @@
 
 ## Install
 ```sh
-npm i node-crawler
+npm i @abilashinamdar/node-crawler
+
     OR
-yarn add node-crawler
+
+yarn add @abilashinamdar/node-crawler
 ```
 
 
 # Basic usage
 
 ```js
-import crawl from "node-crawler";
+import crawl from "@abilashinamdar/node-crawler";
 
 crawl(config, onEveryCrawl, onCrawlError, onCrawlComplete)
 ```
