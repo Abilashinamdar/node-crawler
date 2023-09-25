@@ -29,11 +29,12 @@ app.get("/", function (req, res) {
 app.post('/crawl', function(req, res) {
   const WEB_URL = req.body.url;
 
-  res.writeHead(200, { "Content-Type": "text/html" });
+  res.setHeader("Content-Type", "text/html");
+  res.setHeader("Transfer-Encoding", "chunked");
   const config = {
     url: WEB_URL,
     allowExternalImages: true,
-    maxCrawl: 0,
+    maxCrawl: 5000,
     crawl: ["links", "images"],
     // crawl: ["links"],
     useProxy: false,
@@ -53,7 +54,7 @@ app.post('/crawl', function(req, res) {
         res.write(`<br/>LINK: <a href='${obj.link}'>${obj.link}</a>`);
       }
       if (obj.type === "IMAGE") {
-        res.write(`<br/><img src='${obj.link}' style='max-width: 25%'/>`);
+        res.write(`<br/><img src='${obj.link}' style='max-width: 40%'/>`);
       }
     },
     (err) => {
