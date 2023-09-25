@@ -15,7 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/Abilashinamdar/node-crawler.git"
   },
-  "homepage": "https://github.com/Abilashinamdar/node-crawler#readme",
+  "homepage": "https://node-crawler-server.glitch.me",
   "keywords": [
     "crawler",
     "scraper",

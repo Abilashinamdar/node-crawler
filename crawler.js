@@ -227,13 +227,11 @@ const initInterceptor = () => {
       return Promise.reject(err);
     }
     // retry while Network timeout or Network Error
-    if (
-      !(
-        message.toLowerCase().includes("timeout".toLowerCase()) ||
-        message.toLowerCase().includes("timedout".toLowerCase()) ||
-        message.toLowerCase().includes("Network Error".toLowerCase())
-      )
-    ) {
+    const errors = ["timeout", "timedout", "Network Error"];
+    const retryNeeded = errors.some((err) =>
+      message.toLowerCase().includes(err.toLowerCase())
+    );
+    if (!retryNeeded) {
       return Promise.reject(err);
     }
     config.retry -= 1;
