@@ -1,5 +1,6 @@
 import axios from "axios";
 import RobotsParser from "robots-parser";
+import playwright from "playwright";
 import { load } from "cheerio";
 import { parentPort, workerData } from "worker_threads";
 import Proxy from "./Proxy.js";
@@ -74,6 +75,7 @@ const crawlHrefs = (params) => {
     }
   });
   console.log("hrefs", hrefLinks.size);
+  return links;
 };
 
 const crawlImages = (params) => {
@@ -93,6 +95,27 @@ const crawlImages = (params) => {
     }
   });
   console.log("images", imageLinks.size);
+};
+
+const getHtmlFromBrowser = async (params) => {
+  const {proxy, crawlingUrl} = params ;
+  let options = null;
+  if (proxy) {
+    options = {
+      proxy: {
+        server: `${proxy.protocol}://${proxy.host}:${proxy.port}`,
+      },
+    };
+  }
+  // const browser = await playwright.chromium.launch(options);
+  // const context = await browser.newContext();
+  const context = await playwright.chromium.launchPersistentContext('./tmp', options);
+  const page = await context.newPage();
+  await page.goto(crawlingUrl);
+  const html = await page.content();
+  await browser.close();
+
+  return html;
 };
 
 const postMessage = (type, obj) => {
@@ -183,11 +206,16 @@ const crawlSite = async (params) => {
       return;
     }
     console.log("crawling...", crawlingUrl);
-    const $ = load(res.data);
+    let $ = load(res.data);
 
     crawledLinks.add(crawlingUrl);
 
-    crawlHrefs({ ...params, $ });
+    let links = crawlHrefs({ ...params, $ });
+    if (!links.length) {
+      const html = await getHtmlFromBrowser({ ...params, crawlingUrl, proxy });
+      $ = load(html);
+      crawlHrefs({ ...params, $ });
+    }
     if (config.crawl.includes("images")) {
       crawlImages({ ...params, $ });
     }
